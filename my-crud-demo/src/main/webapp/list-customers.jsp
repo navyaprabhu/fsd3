@@ -19,8 +19,18 @@
 
 	<div class="container">
 		<h2>CRM/Customer Management Systems</h2>
-
-
+	<%
+      if (session != null) {
+    	  out.println(session.getId());
+         if (session.getAttribute("user") != null) {
+            String name = (String) session.getAttribute("user");
+            out.print("Hello, " + name + "  Welcome to ur Profile");
+         } else {
+            response.sendRedirect("index.jsp");
+         }
+      }
+   %>
+		<br />
 		<div id="content">
 
 			<!-- put new button: Add Customer -->
@@ -29,19 +39,28 @@
 				onclick="window.location.href='customer-form.jsp'; return false;"
 				class="add-button" />
 		</div>
+
 		<div>
 			<form action="search.do">
-
 				<input name="search" type="text" /><input type="submit"
 					value="search">
 			</form>
 		</div>
 
-
+		<div>
+			<form action="sort.do">
+				Sort name in: <select name="sort">
+					<option>Select</option>
+					<option>Ascending</option>
+					<option>Descending</option>
+				</select> <input type="submit" value="Sort">
+			</form>
+		</div>
+		
 		<table class="table table-striped">
-			<thead >
+			<thead>
 				<tr>
-					<th>id</th>
+					<th>#</th>
 					<th>Firstname</th>
 					<th>Lastname</th>
 					<th>Email</th>
@@ -49,12 +68,12 @@
 				</tr>
 			</thead>
 			<tbody>
-			
+
 				<c:forEach var="tempCustomer" items="${customers}">
-						<c:url var="updateLink" value="update.do">
+					<c:url var="updateLink" value="update.do">
 						<c:param name="customerId" value="${tempCustomer.id}" />
 					</c:url>
-			
+
 					<c:url var="deleteLink" value="delete.do">
 						<c:param name="customerId" value="${tempCustomer.id}" />
 					</c:url>
@@ -63,17 +82,22 @@
 						<td>${tempCustomer.firstName}</td>
 						<td>${tempCustomer.lastName}</td>
 						<td>${tempCustomer.email}</td>
-						<td>
-						<a href="${updateLink}">Update</a>
-						<a href="${deleteLink}"
+						<td><a href="${updateLink}">Update</a> <a
+							href="${deleteLink}"
 							onclick="if (!(confirm('Are you sure you want to delete this customer?'))) return false">Delete</a>
-							
+
 						</td>
 					</tr>
 				</c:forEach>
 			</tbody>
 		</table>
 	</div>
+	
+   </br>
+   </br>
+   <form action="Logout" method="post">
+      <input type="submit" value="Logout">
+   </form>
 
 </body>
 </html>

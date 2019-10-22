@@ -20,8 +20,8 @@
 	<div id="container">
 		<h3>Save Customer</h3>
 	
-		<form action="saveCustomer.do" method="POST">
-		
+		<form action="updateCustomer.do" method="POST">
+		<input type="hidden" value="${customer.id}" name="id">
 			<table>
 				<tbody>
 					<tr>

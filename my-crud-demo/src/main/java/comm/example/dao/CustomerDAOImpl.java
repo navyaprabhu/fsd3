@@ -60,14 +60,44 @@ public class CustomerDAOImpl implements CustomerDAO {
 	}
 
 	@Override
+	public void updateCustomer(int id, Customer c) {
+		// TODO Auto-generated method stub
+		session = factory.openSession();
+		session.getTransaction().begin();
+		Customer customer = session.get(Customer.class, id);
+		customer.setFirstName(c.getFirstName());
+		customer.setLastName(c.getLastName());
+		customer.setEmail(c.getEmail());
+		session.merge(customer);
+		session.getTransaction().commit();
+
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
 	public List<Customer> findCustomer(String str) {
 		// TODO Auto-generated method stub
 		session = factory.openSession();
 		session.getTransaction().begin();
-		Query query = session.createQuery("FROM Customer WHERE lastName like concat('%',:customerName,'%') ");
+		Query query = session.createQuery("FROM Customer WHERE firstName like concat('%',:customerName,'%')");
 		query.setParameter("customerName", str);
 		session.getTransaction().commit();
+		return query.getResultList();
+	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Customer> sortCustomer(String str) {
+		session = factory.openSession();
+		session.getTransaction().begin();
+		Query query = null;
+		if (str.equals("Ascending")) {
+			query = session.createQuery("FROM Customer order by first_name ASC");
+		}
+		if (str.equals("Descending")) {
+			query = session.createQuery("FROM Customer order by first_name DESC");
+		}
+		session.getTransaction().commit();
 		return query.getResultList();
 	}
 
