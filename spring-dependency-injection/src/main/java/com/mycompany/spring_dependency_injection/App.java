@@ -1,0 +1,23 @@
+package com.mycompany.spring_dependency_injection;
+
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class App 
+{
+    public static void main( String[] args )
+    {
+    	ClassPathXmlApplicationContext context =null;
+       try {
+    	   context=new ClassPathXmlApplicationContext("applicationContext.xml");
+    	   Coach myCoach=context.getBean("theCoach",Coach.class);
+    	   System.out.println("Coach details:"+myCoach.toString());
+    	   System.out.println("workout plan of the day:"+myCoach.getDailyWorkout());
+    	   System.out.println("Fortune of the day"+myCoach.getDailyFortune());
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+       finally {
+		context.close();
+	}
+    }
+}
