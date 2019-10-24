@@ -10,7 +10,7 @@
 	scope="singleton" />
 <bean id="theCoach" class="com.mycompany.spring_dependency_injection.CricketCoach">
 <property name="fortune" ref="foutuneService"/>
-<property name="email" value="admin@luv2code.com"/>
-<property name="teamName" value="Hydrabad Sunriser"/>
+<property name="email" value="{$foo.email}"/>
+<property name="teamName" value="{$foo.teamName}"/>
 </bean>
 </beans>
